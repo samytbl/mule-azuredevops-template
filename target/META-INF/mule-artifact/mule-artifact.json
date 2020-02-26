@@ -1,0 +1,40 @@
+{
+  "configs": [
+    "implementation.xml",
+    "commons.xml",
+    "mule-template-api.xml",
+    "globals.xml",
+    "error-handling.xml"
+  ],
+  "secureProperties": [],
+  "redeploymentEnabled": true,
+  "name": "e545db52-c3a7-491b-ab94-b739c1b438bc:mule-template-api:1.0.10",
+  "minMuleVersion": "4.2.2",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [],
+      "exportedResources": [
+        "log4j2.xml",
+        "prod_secure.yaml",
+        "dev_secure.yaml",
+        "preprod.yaml",
+        "dev.yaml",
+        "commons.xml",
+        "mule-template-api.xml",
+        "rec_secure.yaml",
+        "rec.yaml",
+        "preprod_secure.yaml",
+        "globals.xml",
+        "implementation.xml",
+        "prod.yaml",
+        "error-handling.xml"
+      ]
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

@@ -8,7 +8,7 @@
   ],
   "secureProperties": [],
   "redeploymentEnabled": true,
-  "name": "e545db52-c3a7-491b-ab94-b739c1b438bc:mule-template-api:1.0.10",
+  "name": "com.saur:mule-template-api:1.0.10",
   "minMuleVersion": "4.2.2",
   "requiredProduct": "MULE_EE",
   "classLoaderModelLoaderDescriptor": {

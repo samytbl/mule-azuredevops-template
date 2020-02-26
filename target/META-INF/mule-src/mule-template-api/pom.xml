@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>e545db52-c3a7-491b-ab94-b739c1b438bc</groupId>
+	<groupId>com.saur</groupId>
 	<artifactId>mule-template-api</artifactId>
     <version>1.0.10</version>
     <packaging>mule-application</packaging>
@@ -53,7 +53,6 @@
 				        	      <key>value</key>
 				      	</properties>
 				    		</armDeployment>
-                <classifier>mule-application-template</classifier>
                 </configuration>
 			</plugin>
 		<plugin>

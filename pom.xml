@@ -84,7 +84,7 @@
 			    <version>${mule.maven.plugin.version}</version>
 			    <extensions>true</extensions>
 			</plugin>
-			<plugin>
+			<!-- <plugin>
 			  <groupId>org.mule.tools.maven</groupId>
 			  <artifactId>mule-maven-plugin</artifactId>
 			  <version>3.3.2</version>
@@ -106,7 +106,7 @@
 			      </properties>
 			    </cloudHubDeployment>
 			  </configuration>
-			</plugin>
+			</plugin> -->
         </plugins>
 	</build>
 

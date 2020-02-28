@@ -2,9 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.saur</groupId>
+	<groupId>e545db52-c3a7-491b-ab94-b739c1b438bc</groupId>
 	<artifactId>mule-template-api</artifactId>
-    <version>1.0.10</version>
+    <version>1.0.11</version>
     <packaging>mule-application</packaging>
 
 	<name>mule-template-api</name>
@@ -53,6 +53,7 @@
 				        	      <key>value</key>
 				      	</properties>
 				    		</armDeployment>
+                <classifier>mule-application-template</classifier>
                 </configuration>
 			</plugin>
 		<plugin>
@@ -84,7 +85,7 @@
 			    <version>${mule.maven.plugin.version}</version>
 			    <extensions>true</extensions>
 			</plugin>
-			<plugin>
+			<!-- <plugin>
 			  <groupId>org.mule.tools.maven</groupId>
 			  <artifactId>mule-maven-plugin</artifactId>
 			  <version>3.3.2</version>
@@ -106,7 +107,7 @@
 			      </properties>
 			    </cloudHubDeployment>
 			  </configuration>
-			</plugin>
+			</plugin> -->
         </plugins>
 	</build>
 

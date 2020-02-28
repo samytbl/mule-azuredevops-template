@@ -59,14 +59,6 @@ steps:
     jdkVersionOption: '1.8'  
   
 - task: Maven@3
-  displayName: Deploy to Cloudhub...
-  inputs:
-    goals: 'clean package deploy' 
-    options: '-DdeploymentType=$(mule.deploymentType.cloudhub) -Dusername=$(mule.username) -Dpassword=$(mule.userpwd) -Denvironment=$(mule.environment) -DworkerType=$(mule.workerType) -DapplicationName=$(application_name) -Dworkers=$(mule.workers) -DmuleVersion=$(mule.version) -Dredeploy=true -Duri=$(mule.uri)'
-    jdkVersionOption: '1.8'    
-  condition: eq(variables['mule.deploy.to.cloudhub'], 'true')   
-  
-- task: Maven@3
   displayName: Deploy to cluster...
   inputs:
     goals: 'clean package deploy' 

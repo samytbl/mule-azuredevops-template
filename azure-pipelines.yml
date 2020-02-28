@@ -58,19 +58,11 @@ steps:
     options: '-Dusername=$(mule.username) -Dpassword=$(mule.userpwd)'
     jdkVersionOption: '1.8'  
   
-#- task: Maven@3
-#  displayName: Deploy to Cloudhub...
-#  inputs:
-#    goals: 'clean package -DmuleDeploy'     
-#    options: '-Dusername=$(mule.username) -Dpassword=$(mule.userpwd) -Denvironment=$(mule.environment) -Dworker.type=$(mule.workerType) -Dcloudhub.application.name=$(application_name) -Dworkers=$(mule.workers) -Dapp.runtime=$(mule.version)  -Duri=$(mule.uri) -Dbusiness.group=$(mule.businessGroup) -DdeploymentTimeout=$(mule.timeout)'
-#    jdkVersionOption: '1.8'    
-#  condition: eq(variables['mule.deploy.to.cloudhub'], 'true')   
-  
 - task: Maven@3
   displayName: Deploy to cluster...
   inputs:
     goals: 'clean package deploy' 
-    options: '-DmuleDeploy -Dmule.version=$(mule.version) -Dmule.target=$(mule.clustername) -Dtarget.type=cluster -Dusername=$(mule.username) -Dpassword=$(mule.userpwd) -DbusinessGroup=$(mule.businessGroup) -Denvironment=$(mule.environment) -Duri=$(mule.uri) -Dmule.env=$(mule.environment)'
+    options: '-DmuleDeploy -Dmule.version=$(mule.version) -Dmule.target=$(mule.clustername) -Dtarget.type=cluster -Dusername=$(mule.username) -Dpassword=$(mule.userpwd) -DbusinessGroup=$(mule.businessGroup) -Denvironment=$(mule.environment) -Duri=$(mule.uri) -Dmule.env=$(mule.environment) -Dmule.env=dev -Danypoint.platform.client_secret=$(anypoint.platform.client_secret) -Danypoint.platform.client_id=$(anypoint.platform.client_id) -Dmule.env=$(mule.env) -Dvault.key=$(vault.key)'
     jdkVersionOption: '1.8'
   condition: eq(variables['mule.deploy.to.cluster'], 'true')  
 

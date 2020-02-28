@@ -83,6 +83,18 @@
 			    <artifactId>mule-maven-plugin</artifactId>
 			    <version>${mule.maven.plugin.version}</version>
 			    <extensions>true</extensions>
+			    <configuration>
+					<deploymentType>${mule.deploymentType}</deploymentType>
+					<username>${mule.username}</username>
+					<password>${mule.password}</password>
+					<redeploy>true</redeploy>
+					<uri>${mule.uri}</uri>
+					<environment>${mule.environment}</environment>
+					<muleVersion>${mule.muleVersion}</muleVersion>
+					<workerType>${mule.workerType}</workerType>
+					<workers>${mule.workers}</workers>
+					<applicationName>${mule.applicationName}</applicationName>
+				</configuration>
 			</plugin>
         </plugins>
 	</build>
@@ -182,5 +194,5 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
-
+    
 </project>

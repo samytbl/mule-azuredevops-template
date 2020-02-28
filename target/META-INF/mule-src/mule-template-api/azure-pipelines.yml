@@ -30,7 +30,6 @@ steps:
     cp $(settingsXml.secureFilePath) $HOME/.m2/settings.xml
   displayName: 'Copy settingsXml to .m2 directory'
   
-  
 - task: DownloadSecureFile@1
   name: appProperties
   displayName: 'Download secure properties file'
@@ -46,11 +45,11 @@ steps:
   condition: or(eq(variables['currentBranch'], 'release'), eq(variables['currentBranch'], 'master'))  
   
 - bash: |
-    ls target/*.jar
     echo "##vso[task.setvariable variable=access_token_apim]`curl -H "Content-Type: application/json" -X POST -d '{"username":"$(mule.username)","password":"$(mule.userpwd)"}' $(login.uri) | python3 -c "import sys, json; print(json.load(sys.stdin)['access_token'])"`"
     echo "##vso[task.setvariable variable=api_id]`grep -A2 'api:' src/main/resources/dev.yaml | tail -n1 | sed 's/"//g' | sed 's/id://g' | sed 's/ //g'`"
     echo "##vso[task.setvariable variable=application_name]`grep -A1 'application:' src/main/resources/dev.yaml | tail -n1 | sed 's/name://g'  | sed 's/ //g'`"
   displayName : 'Get API Manager token'
+  condition: or(eq(variables['currentBranch'], 'release'), eq(variables['currentBranch'], 'master'))  
   
 - task: Maven@3
   displayName: Run MUnit...
@@ -58,6 +57,11 @@ steps:
     goals: 'clean test' 
     options: '-Dusername=$(mule.username) -Dpassword=$(mule.userpwd)'
     jdkVersionOption: '1.8'
+    
+- bash: |
+    echo MULTI-TARGETS !!!!
+  displayName : 'MULTI-TARGETS'
+  condition: or(eq(variables['mule.targets.number'], '3'), eq(variables['mule.targets.number'], '2'))      
   
 - task: Maven@3
   displayName: Packaging & Deploying...

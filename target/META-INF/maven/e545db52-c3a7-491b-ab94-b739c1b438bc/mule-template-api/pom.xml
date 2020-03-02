@@ -53,6 +53,7 @@
 				        	      <key>value</key>
 				      	</properties>
 				    		</armDeployment>
+                <classifier>mule-application-template</classifier>
                 </configuration>
 			</plugin>
 		<plugin>
@@ -205,4 +206,5 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
+    
 </project>

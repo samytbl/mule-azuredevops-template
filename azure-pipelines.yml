@@ -30,7 +30,6 @@ steps:
     cp $(settingsXml.secureFilePath) $HOME/.m2/settings.xml
   displayName: 'Copy settingsXml to .m2 directory'
   
-  
 - task: DownloadSecureFile@1
   name: appProperties
   displayName: 'Download secure properties file'
@@ -46,7 +45,6 @@ steps:
   condition: or(eq(variables['currentBranch'], 'release'), eq(variables['currentBranch'], 'master'))  
   
 - bash: |
-    ls target/*.jar
     echo "##vso[task.setvariable variable=access_token_apim]`curl -H "Content-Type: application/json" -X POST -d '{"username":"$(mule.username)","password":"$(mule.userpwd)"}' $(login.uri) | python3 -c "import sys, json; print(json.load(sys.stdin)['access_token'])"`"
     echo "##vso[task.setvariable variable=api_id]`grep -A2 'api:' src/main/resources/dev.yaml | tail -n1 | sed 's/"//g' | sed 's/id://g' | sed 's/ //g'`"
     echo "##vso[task.setvariable variable=application_name]`grep -A1 'application:' src/main/resources/dev.yaml | tail -n1 | sed 's/name://g'  | sed 's/ //g'`"
@@ -58,14 +56,15 @@ steps:
   inputs:
     goals: 'clean test' 
     options: '-Dusername=$(mule.username) -Dpassword=$(mule.userpwd)'
-    jdkVersionOption: '1.8'
+    jdkVersionOption: '1.8'  
   
 - task: Maven@3
-  displayName: Packaging & Deploying...
+  displayName: Deploy to cluster...
   inputs:
     goals: 'clean package deploy' 
-    options: '-DmuleDeploy -Dmule.version=$(mule.version) -Dmule.target=$(mule.clustername) -Dtarget.type=cluster -Dusername=$(mule.username) -Dpassword=$(mule.userpwd) -DbusinessGroup=$(mule.businessGroup) -Denvironment=$(mule.environment) -Duri=$(mule.uri) -Dmule.env=$(mule.environment)'
-    jdkVersionOption: '1.8' 
+    options: '-DmuleDeploy -Dmule.version=$(mule.version) -Dmule.target=$(mule.clustername) -Dtarget.type=cluster -Dusername=$(mule.username) -Dpassword=$(mule.userpwd) -DbusinessGroup=$(mule.businessGroup) -Denvironment=$(mule.environment) -Duri=$(mule.uri) -Dmule.env=$(mule.environment) -Dmule.env=dev -Danypoint.platform.client_secret=$(anypoint.platform.client_secret) -Danypoint.platform.client_id=$(anypoint.platform.client_id) -Dmule.env=$(mule.env) -Dvault.key=$(vault.key)'
+    jdkVersionOption: '1.8'
+  condition: eq(variables['mule.deploy.to.cluster'], 'true')  
 
 - bash: |
     ls target/*.jar

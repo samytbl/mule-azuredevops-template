@@ -4,7 +4,7 @@
 
 	<groupId>com.saur</groupId>
 	<artifactId>mule-template-api</artifactId>
-    <version>1.0.10</version>
+    <version>1.0.0</version>
     <packaging>mule-application</packaging>
 
 	<name>mule-template-api</name>

@@ -2,9 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>e545db52-c3a7-491b-ab94-b739c1b438bc</groupId>
+	<groupId>com.saur</groupId>
 	<artifactId>mule-template-api</artifactId>
-    <version>1.0.12</version>
+    <version>1.0.0</version>
     <packaging>mule-application</packaging>
 
 	<name>mule-template-api</name>
@@ -12,7 +12,7 @@
 	<distributionManagement>
         <repository>
 		  <id>Mulesoft</id>
-		  <url>https://saurdsi.pkgs.visualstudio.com/PlateformeAPI/_packaging/Mulesoft/maven/v1</url>
+		  <url>https://saurdsi.pkgs.visualstudio.com/PlateformeAPI/_packaging/mule-test-feed/maven/v1</url>
 		  <releases>
 		    <enabled>true</enabled>
 		  </releases>
@@ -84,29 +84,6 @@
 			    <version>${mule.maven.plugin.version}</version>
 			    <extensions>true</extensions>
 			</plugin>
-			<!-- <plugin>
-			  <groupId>org.mule.tools.maven</groupId>
-			  <artifactId>mule-maven-plugin</artifactId>
-			  <version>3.3.2</version>
-			  <extensions>true</extensions>
-			  <configuration>
-			    <cloudHubDeployment>
-			      <uri>${uri}</uri>
-			      <muleVersion>${app.runtime}</muleVersion>
-			      <username>${username}</username>
-			      <password>${password}</password>
-			      <applicationName>${cloudhub.application.name}</applicationName>
-			      <environment>${environment}</environment>
-			      <workers>${workers}</workers>
-			      <workerType>${worker.type}</workerType>
-			      <region>${region}</region>
-			      <businessGroup>${business.group}</businessGroup>
-			      <properties>
-			        <key>value</key>
-			      </properties>
-			    </cloudHubDeployment>
-			  </configuration>
-			</plugin> -->
         </plugins>
 	</build>
 
@@ -185,7 +162,7 @@
         </repository>
         <repository>
 		  <id>Mulesoft</id>
-		  <url>https://saurdsi.pkgs.visualstudio.com/PlateformeAPI/_packaging/Mulesoft/maven/v1</url>
+		  <url>https://saurdsi.pkgs.visualstudio.com/PlateformeAPI/_packaging/mule-test-feed/maven/v1</url>
 		  <releases>
 		    <enabled>true</enabled>
 		  </releases>
@@ -205,4 +182,5 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
+    
 </project>

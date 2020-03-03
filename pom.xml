@@ -4,7 +4,7 @@
 
 	<groupId>e545db52-c3a7-491b-ab94-b739c1b438bc</groupId>
 	<artifactId>mule-template-api</artifactId>
-    <version>1.0.11</version>
+    <version>1.0.12</version>
     <packaging>mule-application</packaging>
 
 	<name>mule-template-api</name>

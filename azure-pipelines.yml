@@ -39,8 +39,9 @@ steps:
 
 - script: |
     export mypath="$PWD"
-    echo copying $(appProperties.secureFilePath) to $mypath/src/main/resources...
-    cp $(appProperties.secureFilePath) $mypath/src/main/resources
+    echo copying $(appProperties.secureFilePath) to /src/main/resources...
+    ls -ax
+    cp $(appProperties.secureFilePath) src/main/resources
   displayName: 'Copy properties file to /src/main/resources'
   condition: or(eq(variables['currentBranch'], 'release'), eq(variables['currentBranch'], 'master'))  
   
@@ -49,8 +50,33 @@ steps:
     echo "##vso[task.setvariable variable=api_id]`grep -A2 'api:' src/main/resources/dev.yaml | tail -n1 | sed 's/"//g' | sed 's/id://g' | sed 's/ //g'`"
     echo "##vso[task.setvariable variable=application_name]`grep -A1 'application:' src/main/resources/dev.yaml | tail -n1 | sed 's/name://g'  | sed 's/ //g'`"
   displayName : 'Get API Manager token'
-  condition: or(eq(variables['currentBranch'], 'release'), eq(variables['currentBranch'], 'master'))  
+  condition: or(eq(variables['currentBranch'], 'release'), eq(variables['currentBranch'], 'master')) 
   
+- script: |
+    export mypath="$PWD"
+    echo access token apim $(access_token_apim)
+    echo api id $(api_id)
+    echo application name $(application_name)
+    curl -X POST -H 'Accept: application/json' -H 'Content-Type: application/json' -H 'authorization: Bearer $(access_token_apim)' $(promote.uri) -d '{"instanceLabel":$(application_name),"promote":{"originApiId":$(api_id),"policies":{"allEntities":true},"tiers":{"allEntities":true},"alerts":{"allEntities":true}}}'
+  displayName: Promote API
+  condition: or(eq(variables['currentBranch'], 'release'), eq(variables['currentBranch'], 'master'))
+  
+- bash: |
+    mvn -q -Dexec.executable=echo -Dexec.args='${project.groupId} ${project.artifactId} ${project.version}' --non-recursive exec:exec 2>/dev/null > /tmp/pominfos.txt
+    echo "##vso[task.setvariable variable=assetId]`cat /tmp/pominfos.txt | cut -d " " -f 2`"  
+    echo "##vso[task.setvariable variable=api_resp]`curl GET -H 'Authorization:Bearer $(access_token_apim)' $(promote.uri)\?assetId\=$(assetId) | jq '.assets' | jq '.[0]' | jq '.apis' | jq '.[0]' | jq '.id'`"
+  displayName : 'Get API Autodiscovery ID'
+  condition: or(eq(variables['currentBranch'], 'release'), eq(variables['currentBranch'], 'master'))
+  
+- script: |
+    echo access token apim $(access_token_apim)
+    echo api_resp $(api_resp)
+    echo application name $(application_name)
+    sed -i 's/$(api_id)/$(api_resp)/g' src/main/resources/$(properties)
+    cat src/main/resources/$(properties)
+  displayName: Update Autodiscovery id
+  condition: or(eq(variables['currentBranch'], 'release'), eq(variables['currentBranch'], 'master'))  
+ 
 - task: Maven@3
   displayName: Run MUnit...
   inputs:
@@ -82,32 +108,6 @@ steps:
     echo pomartifactId: $(pomartifactId)
     echo pomversion: $(pomversion)
   displayName: Show variables
-  
-- script: |
-    export mypath="$PWD"
-    echo access token apim $(access_token_apim)
-    echo api id $(api_id)
-    echo application name $(application_name)
-    curl -X POST -H 'Accept: application/json' -H 'Content-Type: application/json' -H 'authorization: Bearer $(access_token_apim)' $(promote.uri) -d '{"instanceLabel":$(application_name),"promote":{"originApiId":$(api_id),"policies":{"allEntities":true},"tiers":{"allEntities":true},"alerts":{"allEntities":true}}}'
-  displayName: Promote API
-  condition: or(eq(variables['currentBranch'], 'release'), eq(variables['currentBranch'], 'master'))
-  
-- bash: |
-    echo "##vso[task.setvariable variable=api_resp]`curl GET -H 'Authorization:Bearer $(access_token_apim)' $(promote.uri)\?assetId\=$(assetId) | jq '.assets' | jq '.[0]' | jq '.id'`"
-  displayName : 'Get API Autodiscovery ID'
-  condition: or(eq(variables['currentBranch'], 'release'), eq(variables['currentBranch'], 'master'))
-  
-- script: |
-    cat $mypath/src/main/resources/$(properties)
-    export mypath="$PWD"
-    echo access token apim $(access_token_apim)
-    echo api_resp $(api_resp)
-    echo application name $(application_name)
-    sed -i 's/$(api_id)/$(api_resp)/g' $mypath/src/main/resources/$(properties)
-    cat $mypath/src/main/resources/$(properties)
-    env | sort
-  displayName: Update Autodiscovery id
-  condition: or(eq(variables['currentBranch'], 'release'), eq(variables['currentBranch'], 'master'))
 
 - task: Maven@3
   displayName: Generating artifact...
